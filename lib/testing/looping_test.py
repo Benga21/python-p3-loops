@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-
-from looping import happy_new_year, square_integers, fizzbuzz
+from lib.looping import happy_new_year, square_integers, fizzbuzz
 
 import io
 import sys
@@ -16,11 +15,11 @@ class TestHappyNewYear:
         sys.stdout = sys.__stdout__
         answer = captured_out.getvalue()
         
-        #answer.split(\n) produces a list that ends in ''
+        # answer.split(\n) produces a list that ends in ''
         answer_list = answer.split('\n')
-        #second to last value should be the HNY string
+        # second to last value should be the HNY string
         assert answer_list[-2] == "Happy New Year!", "Your final line does not match 'Happy New Year!', check spelling/capitalization!"
-        digit_strings = [str(i) for i in range(1,11)]
+        digit_strings = [str(i) for i in range(1, 11)]
         remaining_digits = [i for i in digit_strings if i not in answer_list] 
         assert remaining_digits == [], f"You didn't print all digits 1-10, missing {', '.join(remaining_digits)}"
 
@@ -29,8 +28,8 @@ class TestSquareIntegers:
 
     def test_square_integers(self):
         '''returns squared ints for [1, 2, 3, 4, 5] and [-1, -2, -3, -4, -5]'''
-        assert(square_integers([1, 2, 3, 4, 5]) == [1, 4, 9, 16, 25])
-        assert(square_integers([-1, -2, -3, -4, -5]) == [1, 4, 9, 16, 25])
+        assert square_integers([1, 2, 3, 4, 5]) == [1, 4, 9, 16, 25]
+        assert square_integers([-1, -2, -3, -4, -5]) == [1, 4, 9, 16, 25]
 
 class TestFizzBuzz:
     '''fizzbuzz() in looping.py'''
@@ -42,17 +41,28 @@ class TestFizzBuzz:
         fizzbuzz()
         sys.stdout = sys.__stdout__
         answer = captured_out.getvalue()
+        
+        # Check if any output was produced
         assert len(answer) != 0, "Nothing printed! Check your loop condition. Also do you have print statements?"
+        
+        # Check for required strings
         assert "Fizz" in answer, "The string 'Fizz' not found in your answer, check spelling/capitalization!"
         assert "Buzz" in answer, "The string 'Buzz' not found in your answer, check spelling/capitalization!"
+        
+        # Check the output lines
         i = 1
         for line in answer.split('\n'):
-            if(line): #answer.split(\n) produces a list that ends in ''
-                if i % 15 == 0: assert line == "FizzBuzz", f"Should have printed 'Buzz' when number is {i}, got {line} instead"
-                elif i % 3 == 0: assert line == "Fizz", f"Should have printed 'Fizz' when number is {i}, got {line} instead"
-                elif i % 5 == 0: assert line == "Buzz", f"Should have printed 'Buzz' when number is {i}, got {line} instead"
-                else: assert str(i) == line, f"Should have printed {i}, got {line} instead"
+            if line:  # Ignore empty lines
+                if i % 15 == 0:
+                    assert line == "FizzBuzz", f"Should have printed 'FizzBuzz' when number is {i}, got {line} instead"
+                elif i % 3 == 0:
+                    assert line == "Fizz", f"Should have printed 'Fizz' when number is {i}, got {line} instead"
+                elif i % 5 == 0:
+                    assert line == "Buzz", f"Should have printed 'Buzz' when number is {i}, got {line} instead"
+                else:
+                    assert str(i) == line, f"Should have printed {i}, got {line} instead"
                 i += 1
         
+        # Verify that the loop ran exactly 100 times
         i = i - 1
-        assert i == 100, f"Only looped {i} times, should have looped 100 times. Check your loop condition!"    
+        assert i == 100, f"Only looped {i} times, should have looped 100 times. Check your loop condition!"
